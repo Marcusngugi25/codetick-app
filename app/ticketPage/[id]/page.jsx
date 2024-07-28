@@ -1,4 +1,6 @@
-const ticketPage = ({ params }) => {
+import TicketForm from "./TicketForm"; // Import the TicketForm component
+
+const ticketPage = () => {
   return <TicketForm />;
 };
 

@@ -27,7 +27,7 @@
   }
 
   form {
-    @apply rounded-x1 p-4;
+    @apply rounded-xl p-4;
   }
   label {
     @apply mt-4;
