@@ -1,5 +1,5 @@
 const ticketPage = ({ params }) => {
-  return <div>ticketPage $(params.id)</div>;
+  return <TicketForm />;
 };
 
 export default ticketPage;
