@@ -12,19 +12,17 @@ const TicketCard = ({ ticket }) => {
           <DeleteBlock />
         </div>
       </div>
-      <h4>Ticket Title</h4>
+      <h4>{ticket.title}</h4>
       <hr className="h-px border-0 bg-page mb-2" />
-      <p className="whitespace-pre-wrap">
-        Here is the ticket description. Please do this ticket!
-      </p>
+      <p className="whitespace-pre-wrap">{ticket.description}</p>
       <div className="flex-grow"></div>
       <div className="flex mt-2">
         <div className="flex flex-col">
-          <p className="text-xs my-1">01/07/24 10:44AM</p>
-          <ProgressDisplay />
+          <p className="text-xs my-1">{ticket.createdAT}</p>
+          <ProgressDisplay progress={ticket.progress} />
         </div>
         <div className="ml-auto flex items-end">
-          <StatusDisplay />
+          <StatusDisplay status={ticket.status} />
         </div>
       </div>
     </div>

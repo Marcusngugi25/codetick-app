@@ -1,26 +1,7 @@
-const StatusDisplay = () => {
-  const getColor = (status) => {
-    let color;
-    switch (status.toLowerCase()) {
-      case "done":
-        color = "bg-green-200";
-        return color;
-
-      case "in progress":
-        color = "bg-yellow-200";
-        return color;
-
-      case "not yet started":
-        color = "bg-red-200";
-        return color;
-      default:
-        color = "bg-slate-700";
-    }
-    return color;
-  };
+const StatusDisplay = ({ status }) => {
   return (
     <span className="inline-block rounded-full px-2 py-1 text-xs font-semibold text-gray-700 bg-green-200">
-      done
+      {status}
     </span>
   );
 };
