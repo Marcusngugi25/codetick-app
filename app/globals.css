@@ -23,7 +23,7 @@
     @apply text-xl;
   }
   p {
-    @apply text-sm text-default-text;
+    @apply text-sm;
   }
 
   form {
