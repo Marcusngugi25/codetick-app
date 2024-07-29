@@ -1,58 +1,17 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const TicketForm = ({ ticket }) => {
+const EditTicketForm = ({ ticket }) => {
   const EDITMODE = ticket._id === "new" ? false : true;
-
   const router = useRouter();
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (EDITMODE) {
-      const res = await fetch(`/api/Tickets/${ticket._id}`, {
-        method: "PUT",
-        body: JSON.stringify({ formData }),
-        "content-type": "application/json",
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to Update Ticket. Please try again later.");
-      }
-    } else {
-      const res = await fetch("/api/Tickets", {
-        method: "POST",
-        body: JSON.stringify({ formData }),
-        "content-type": "application/json",
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to Create Ticket. Please try again later.");
-      }
-    }
-    router.refresh();
-    router.push("/");
-  };
-
   const startingTicketData = {
     title: "",
     description: "",
     priority: 1,
     progress: 0,
-    status: "not yet started",
-    category: "Hardware Issue",
+    status: "not started",
+    category: "Hardware Problem",
   };
 
   if (EDITMODE) {
@@ -65,14 +24,62 @@ const TicketForm = ({ ticket }) => {
   }
 
   const [formData, setFormData] = useState(startingTicketData);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setFormData((preState) => ({
+      ...preState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (EDITMODE) {
+      const res = await fetch(`/api/Tickets/${ticket._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ formData }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update ticket");
+      }
+    } else {
+      const res = await fetch("/api/Tickets", {
+        method: "POST",
+        body: JSON.stringify({ formData }),
+        //@ts-ignore
+        "Content-Type": "application/json",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to create ticket");
+      }
+    }
+
+    router.refresh();
+    router.push("/");
+  };
+
+  const categories = [
+    "Hardware Issue",
+    "Software Issue",
+    "Application Development",
+    "Project",
+  ];
+
   return (
-    <div className="flex justify-center">
+    <div className=" flex justify-center">
       <form
-        className="flex flex-col gap-3 w-1/2"
-        method="post"
         onSubmit={handleSubmit}
+        method="post"
+        className="flex flex-col gap-3 w-1/2"
       >
-        <h3>{EDITMODE ? "Update Your Ticket" : "Create Your Ticket"}</h3>
+        <h3>{EDITMODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
         <label>Title</label>
         <input
           id="title"
@@ -82,7 +89,6 @@ const TicketForm = ({ ticket }) => {
           required={true}
           value={formData.title}
         />
-
         <label>Description</label>
         <textarea
           id="description"
@@ -92,16 +98,17 @@ const TicketForm = ({ ticket }) => {
           value={formData.description}
           rows="5"
         />
-
         <label>Category</label>
         <select
           name="category"
           value={formData.category}
           onChange={handleChange}
         >
-          <option value="Hardware Issue">Hardware Issue</option>
-          <option value="Software Issue">Software Issue</option>
-          <option value="Project">Project</option>
+          {categories?.map((category, _index) => (
+            <option key={_index} value={category}>
+              {category}
+            </option>
+          ))}
         </select>
 
         <label>Priority</label>
@@ -158,8 +165,8 @@ const TicketForm = ({ ticket }) => {
           id="progress"
           name="progress"
           value={formData.progress}
-          min={"0"}
-          max={"100"}
+          min="0"
+          max="100"
           onChange={handleChange}
         />
         <label>Status</label>
@@ -178,4 +185,4 @@ const TicketForm = ({ ticket }) => {
   );
 };
 
-export default TicketForm;
+export default EditTicketForm;
