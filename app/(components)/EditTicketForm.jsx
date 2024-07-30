@@ -11,7 +11,7 @@ const EditTicketForm = ({ ticket }) => {
     priority: 1,
     progress: 0,
     status: "not started",
-    category: "Hardware Problem",
+    category: "Hardware Issue",
   };
 
   if (EDITMODE) {
@@ -53,7 +53,7 @@ const EditTicketForm = ({ ticket }) => {
       const res = await fetch("/api/Tickets", {
         method: "POST",
         body: JSON.stringify({ formData }),
-        //@ts-ignore
+
         "Content-Type": "application/json",
       });
       if (!res.ok) {
